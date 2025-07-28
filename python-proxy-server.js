@@ -14,7 +14,6 @@ const storage = multer.diskStorage({
     }
 })
 const fs = require('fs');
-const path = require('path');
 
 // Garante que a pasta logs existe
 const logDir = path.join(__dirname, 'logs');
