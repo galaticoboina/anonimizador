@@ -13,6 +13,14 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}${ext}`);
     }
 })
+const fs = require('fs');
+const path = require('path');
+
+// Garante que a pasta logs existe
+const logDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+}
 const upload = multer({ storage: storage });
 const { readFileSync, rmSync, createWriteStream, rm } = require('fs');
 const { spawn, spawnSync } = require('child_process');
@@ -180,10 +188,7 @@ app.use(express.static("build"))
 
 let pkjson = require('./package.json');
 const { readFile } = require('fs/promises');
-let url = pkjson.proxy;
-let port = 7998;
-if (url) {
-    port = new URL(url).port
-}
-
-app.listen(port);
+const PORT = process.env.PORT || 7998;
+app.listen(PORT, () => {
+  console.log(`Servidor iniciado na porta ${PORT}`);
+});
